@@ -86,24 +86,24 @@ class Artifactory:
 
     # Below is my implementation of passing the arguments to the necessary functions. I call it my "switch" because It asks like a swicth, mixing and matching etc.
     def switch(self):
-        if self.arg.system_ping:
+        if self.arg.system_ping: # If the user wants to use the system ping, the following code will be executed.
             self.system_ping()
-        elif self.arg.system_version:
+        elif self.arg.system_version: # If the user wants to use the system version, the following code will be executed.
             self.system_version()
-        elif self.arg.create_user:
+        elif self.arg.create_user: # If the user wants to use the create user, the following code will be executed.
             self.create_user()
-        elif self.arg.delete_user:
+        elif self.arg.delete_user: # If the user wants to use the delete user, the following code will be executed.
             self.delete_user()
-        elif self.arg.storage_info:
+        elif self.arg.storage_info: # If the user wants to use the storage information, the following code will be executed.
             self.storage_info()
-        elif self.arg.create_repository:
+        elif self.arg.create_repository: # If the user wants to use the create repository, the following code will be executed.
             self.create_repository()
-        elif self.arg.update_repository:
+        elif self.arg.update_repository: # If the user wants to use the update repository, the following code will be executed.
             self.update_repository()
-        elif self.arg.list_repositories:
+        elif self.arg.list_repositories: # If the user wants to use the list repositories, the following code will be executed.
             self.list_repositories()
         else:
-            print("Please enter a valid argument.")
+            print("Please enter a valid argument.") # Error message
     # A simple conditional statement to determine what the user wants to do and execute the necessary function.
 
     # The following are the functions that are used to create the user, repository, and other API's.
@@ -169,9 +169,37 @@ class Artifactory:
 
     def create_repository(self):
         # This function will create a new repository in the Jfrog artifactory.
-        create_repository_dict = {}
-        create_repository_dict["key"] = input("Repository key: ")
+        create_repository_dict = {} # Create a dictionary to store the repository information
+        create_repository_dict["key"] = input("Repository key: ") # Repository key prompt
+        create_repository_dict["rclass"] = "local" # Repository class
+        create_repository_dict["packageType"] = input("Package Type: ") # Package type prompt ~ "Linux Debian"
+        create_repository_dict["description"] = input("Description: ") # Description prompt
+        headers = {'Content-Type': 'application/json'} # Header fields
+        # The implementation of the API's put request on creating a new repository
+        r = requests.put(self.artifactory_url + "api/repositories/" + create_repository_dict["key"], data=json.dumps(create_repository_dict).encode('utf-8'), headers=headers, auth = (self.username, self.token)) # Put request
+        # If the request is successful, the following code will be executed.
+        if r.status_code == 200:
+            print("The repository was successfully created.")
+        else:
+            # I also passed in the status code in there to make it easier to see what happened to the creation and updating of a given repository.
+            print("The repository was not created." + str(r.status_code) + "\n" + (r.content.decode("utf-8")))
 
+    def update_repository(self):
+        # This function will update a repository in the Jfrog artifactory.
+        update_repository_dict = {}
+        update_repository_dict["key"] = input("Repository key: ") # Repository key prompt
+        update_repository_dict["description"] = input("Description: ") # Description prompt
+        headers = {'Content-Type': 'application/json'} # Header fields
+        # The implementation of the API's post request on updating a repository
+        r = requests.post(self.artifactory_url + "api/repositories/" + update_repository_dict["key"], data=json.dumps(update_repository_dict).encode('utf-8'), headers=headers, auth = (self.username, self.token)) # Post request
+        # If the request is successful, the following code will be executed.
+        if r.status_code == 200:
+            print("The repository was successfully updated.")
+        else:
+            # I also passed in the status code in there to make it easier to see what happened to the creation and updating of a given repository.
+            print("The repository was not updated." + str(r.status_code) + "\n" (r.content.decode("utf-8")))
+
+    
 
     
 

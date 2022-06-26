@@ -84,7 +84,7 @@ class Artifactory:
             print("Unfortunately, The Authentication was unsuccessful." + r.content.decode("utf-8")) # Error message
             sys.exit() # Exit the script
 
-    # Below is my implementation of passing the arguments to the necessary functions. I call it my "big switch" because It asks like a swicth, mixing and matching etc.
+    # Below is my implementation of passing the arguments to the necessary functions. I call it my "switch" because It asks like a swicth, mixing and matching etc.
     def switch(self):
         if self.arg.system_ping:
             self.system_ping()
@@ -106,8 +106,73 @@ class Artifactory:
             print("Please enter a valid argument.")
     # A simple conditional statement to determine what the user wants to do and execute the necessary function.
 
-        
     # The following are the functions that are used to create the user, repository, and other API's.
+    def system_ping(self):
+        # This function will request the Ping from the instance.
+        r = requests.get(self.artifactory_url + "api/system/ping", auth = (self.username, self.token)) # Get request
+        # If the request is successful, the following code will be executed.
+        if r.status_code == 200:
+            print("The ping was successful.")
+            print("Ping status: " + r.content.decode("utf-8")) # Print the ping status
+        else:
+            print("The ping was unsuccessful.")
+        
+    def system_version(self):
+        # This function will request the system's current running version from the instance.
+        r = requests.get(self.artifactory_url + "api/system/version", auth = (self.username, self.token))
+        # If the request is successful, the following code will be executed.
+        if r.status_code == 200:
+            print("System version: " + r.content.decode("utf-8"))
+        else:
+            print("The system version failed to be retrieved.")
+
+    def create_user(self):
+        # This function will create a new user in the Jfrog artifactory.
+        create_user_dict = {}
+        create_user_dict["username"] = input("Username: ") # Username prompt
+        create_user_dict["password"] = input("Password: ") # Password prompt
+        create_user_dict["admin"] = False # Admin status
+        create_user_dict["email"] = input("Email: ") # Email prompt
+        headers = {"Content-Type": "application/json"} # Header fields
+        # The implementation of the API's put request on creating a new user
+        r = requests.put(self.artifactory_url + "api/security/users/" + create_user_dict["username"], data=json.dumps(create_user_dict).encode('utf-8'), headers=headers, auth = (self.username, self.token))  # Put request
+        # If the request is successful, the following code will be executed.
+        if r.status_code == 200:
+            print("The user was successfully created.")
+        else:
+            print("The user was not created." + r.content.decode("utf-8")) # Error message
+
+    # The Delete user function is used to delete a user from the Jfrog artifactory, it require way less arguments than the create user function and 
+    # the same goes for the "create repository" function and "update repository" function as well.
+
+    def delete_user(self):
+        # This function will delete a user from the Jfrog artifactory.
+        user_name = input("Username: ") # Username prompt
+        # The implementation of the API's delete request on deleting a user
+        r = requests.delete(self.artifactory_url + "api/security/users/" + user_name, auth = (self.username, self.token)) # Delete request
+        # If the request is successful, the following code will be executed.
+        if r.status_code == 200:
+            print("The user was successfully deleted.")
+        else:
+            print("The user was not deleted." + r.content.decode("utf-8"))
+
+
+    def storage_info(self):
+        # This function will request the storage information from the instance.
+        r = requests.get(self.artifactory_url + "api/storage/info", auth = (self.username, self.token))
+        # If the request is successful, the following code will be executed.
+        if r.status_code == 200:
+            # Storage information will be returned in JSON format.
+            print("Storage information: " + json.dumps(r.json(), indent=4))
+        else:
+            print("The storage information failed to be retrieved.")
+
+    def create_repository(self):
+        # This function will create a new repository in the Jfrog artifactory.
+        create_repository_dict = {}
+        create_repository_dict["key"] = input("Repository key: ")
+
+
     
 
 

@@ -199,8 +199,18 @@ class Artifactory:
             # I also passed in the status code in there to make it easier to see what happened to the creation and updating of a given repository.
             print("The repository was not updated." + str(r.status_code) + "\n" (r.content.decode("utf-8")))
 
-    
+    def list_repositories(self):
+        # This function will request the list of repositories from the instance.
+        r = requests.get(self.artifactory_url + "api/repositories", auth = (self.username, self.token))
+        # If the request is successful, the following code will be executed.
+        if r.status_code == 200:
+            # The list of repositories will be returned in JSON format.
+            print("List of repositories: " + json.dumps(r.json(), indent=4))
+        else:
+            print("The list of repositories failed to be retrieved.")
 
-    
-
-
+# The following code will be executed when the program is run.
+if __name__ == "__main__":
+    # Create a new instance of the Artifactory class.
+    artifactory = Artifactory()
+    artifactory.switch() # Switch function

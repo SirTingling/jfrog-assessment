@@ -5,11 +5,6 @@ import requests
 import json
 import sys
 
-# Help
-
-
-
-
 # The parser function is used to parse the command line arguments:
 # Reason ~ The reason why I implemented a parser function is because I wanted to make the script more user friendly
 # to users of the application via the cli (command-line interface)
@@ -68,8 +63,8 @@ class Artifactory:
         # depending on the user's needs or need's of the application. 
         user_dict = {}
         print("Welcome to My JFrog Artifactory API, please enter the given username and password.") # Welcome message
-        user_dict["username"] = input("Username: ") # Username prompt ~ jordantingling6@gmail.com
-        user_dict["password"] = input("Password: ") # Password ~ 
+        user_dict["username"] = input("Username: ") # Username prompt ~ jordantingling
+        user_dict["password"] = input("Password: ") # Password ~ jordan762Mj!
         headers_dict = {"Content-Type": "application/x-www-form-urlencoded"} # Header fields
 
         artifactory_url = f"https://{user_dict['username']}.jfrog.io/artifactory" # Artifactory URL

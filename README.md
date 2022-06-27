@@ -8,17 +8,18 @@ They are two ways to install the project:
 The first one:
 
 ```cmd
-pip3 install jordantingling6@gmail.com -i  
+pip3 install jordantingling -i  https://jordantingling.jfrog.io/artifactory/tingling-jfrog-assignment/jordantingling
+
 ```
-username: jordantingling6@gmail.com \
-password: 123456789Mj!
+username: jordantingling \
+password: jordan762Mj!
 
 The second:
 
 ``` cmd
 git clone https://github.com/SirTingling/jfrog-assessment.git
 pip3 install -r requirements.txt
-cd project/
+cd jfrog-project/
 ```
 
 ## Usage

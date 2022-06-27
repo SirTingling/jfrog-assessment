@@ -33,7 +33,7 @@ def parser():
     parser.add_argument("-v", "--system_version", action="store_true", help="Return the version of the system", required=True) # System Version
     parser.add_argument("-cu", "--create-user", action="store_true", help="Create a new user", required=True) # Create User
     parser.add_argument("-du", "--delete-user", action="store_true", help="Delete a user", required=True) # Delete User
-    parser.add_argument("-si", "--storage-info", action="store_true", help="Return the storage information of the systen", required=True) # Storage Info
+    parser.add_argument("-si", "--storage-info", action="store_true", help="Return the storage information of the system", required=True) # Storage Info
     parser.add_argument("-cr", "--create-repository", action="store_true", help="Create a new repository", required=True) # Create Repository
     parser.add_argument("-ur", "--update-repository", action="store_true", help="Update a repository", required=True) # Update Repository
     parser.add_argument("-lr", "--list-repositories", action="store_true", help="List all repositories", required=True) # List Repositories
